@@ -20,8 +20,15 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	$data = array_map('trim', $data);
 	$data = array_filter($data);
 
+	$separator = $_POST['separator'];
+
+	if ($separator == 'comma')
+		$separator = ',';
+	else
+		$separator = "\t";
+
 	foreach ($data as $value) {
-		$value = explode("\t", $value);
+		$value = explode($separator, $value);
 
 		foreach ($skip_columns as $key)
 			if (isset($value[$key - 1]))
@@ -44,6 +51,8 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	<input name="skip_columns" type="text" value="" placeholder="Skip Columns&hellip; (comma-separated, e.g. 1,3)" style="width: 100%;">
 	<br><br>
 	<textarea name="data" style="width: 100%; height: 300px;" placeholder="Data&hellip;"></textarea>
+	<br><br>
+	Data separator: <label><input name="separator" type="radio" value="tab" checked> Tab (\t)</label> <label><input name="separator" type="radio" value="comma"> Comma (,)</label>
 	<br><br>
 	<button type="submit" style="width: 100%;">Submit</button>
 </form>
