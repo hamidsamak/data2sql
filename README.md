@@ -5,3 +5,4 @@ A web-based project for converting tab and comma separated values like worksheet
 * Setting column names
 * Skip or ignore selected columns of given data
 * Working with tab-separated values (TSV) and comma-separated values (CSV)
+* Trimming values
