@@ -6,6 +6,8 @@
  * https://github.com/hamidsamak/data2sql
  */
 
+define('DATA2SQL_CHARSET', 'utf8');
+
 if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	$table = $_POST['table'];
 	$columns = empty($_POST['columns']) ? [] : explode(',', $_POST['columns']);
@@ -25,9 +27,10 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	else
 		$separator = "\t";
 
-	if ($output == 'open')
+	if ($output == 'open') {
+		print '<meta charset="' . DATA2SQL_CHARSET . '">';
 		print '<pre>';
-	else if ($output == 'save') {
+	} else if ($output == 'save') {
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream; charset=utf-8');
 		header('Content-Disposition: attachment; filename=data2sql_' . $table . '_' . date('YmdHis') . '.sql');
@@ -54,6 +57,8 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 }
 
 ?>
+
+<meta charset="<?=DATA2SQL_CHARSET?>">
 
 <form method="post">
 	<h1>Data 2 SQL</h1>
