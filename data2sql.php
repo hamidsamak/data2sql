@@ -1,16 +1,12 @@
-<!--
+<?php
+
 /*
  * Data 2 SQL
  * Hamid Samak
  * https://github.com/hamidsamak/data2sql
  */
--->
-
-<?php
 
 if (isset($_POST['data']) && empty($_POST['data']) === false) {
-	print '<pre>';
-
 	$table = $_POST['table'];
 	$columns = empty($_POST['columns']) ? [] : explode(',', $_POST['columns']);
 	$skip_columns = empty($_POST['skip_columns']) ? [] : explode(',', $_POST['skip_columns']);
@@ -22,11 +18,24 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 
 	$separator = $_POST['separator'];
 	$trim = empty($_POST['trim']);
+	$output = $_POST['output'];
 
 	if ($separator == 'comma')
 		$separator = ',';
 	else
 		$separator = "\t";
+
+	if ($output == 'open')
+		print '<pre>';
+	else if ($output == 'save') {
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream; charset=utf-8');
+		header('Content-Disposition: attachment; filename=data2sql_' . $table . '_' . date('YmdHis') . '.sql');
+		header('Content-Transfer-Encoding: binary');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Expires: 0');
+	}
 
 	foreach ($data as $value) {
 		$value = explode($separator, $value);
@@ -59,6 +68,8 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	Data separator: <label><input name="separator" type="radio" value="tab" checked> Tab (\t)</label> <label><input name="separator" type="radio" value="comma"> Comma (,)</label>
 	<br><br>
 	Trim values: <label><input name="trim" type="radio" value="1"> Yes</label> <label><input name="trim" type="radio" value="0" checked> No</label>
+	<br><br>
+	Output: <label><input name="output" type="radio" value="open" checked> Open</label> <label><input name="output" type="radio" value="save"> Save</label>
 	<br><br>
 	<button type="submit" style="width: 100%;">Submit</button>
 </form>
