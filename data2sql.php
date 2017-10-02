@@ -78,3 +78,7 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	<br><br>
 	<button type="submit" style="width: 100%;">Submit</button>
 </form>
+
+<div style="font-size: 75%; text-align: center;">
+	<a href="https://github.com/hamidsamak/data2sql" target="_blank">Data2SQL</a> by <a href="https://github.com/hamidsamak" target="_blank">Hamid Samak</a>
+</div>
