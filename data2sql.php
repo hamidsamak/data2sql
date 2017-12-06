@@ -19,6 +19,7 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	$data = array_filter($data);
 
 	$separator = $_POST['separator'];
+	$query = $_POST['query'];
 	$trim = empty($_POST['trim']);
 	$output = $_POST['output'];
 
@@ -50,7 +51,20 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 			if (isset($value[$key - 1]))
 				unset($value[$key - 1]);
 
-		print 'INSERT INTO `' . $table. '` (`' . implode('`, `', $columns) . '`) VALUES (\'' . implode('\', \'', $value) . '\');' . "\n";
+		if ($query == 'insert')
+			print 'INSERT INTO `' . $table. '` (`' . implode('`, `', $columns) . '`) VALUES (\'' . implode('\', \'', $value) . '\');' . "\n";
+		else if ($query == 'update') {
+			print 'UPDATE `' . $table. '` SET ';
+
+			for ($i = 0; $i < count($columns) - 1; $i += 1) {
+				print '`' . $columns[$i] . '` = \'' . $value[$i] . '\'';
+
+				if ($i + 2 !== count($columns))
+					print ', ';
+			}
+
+			print ' WHERE `' . end($columns) . '` = \'' . end($value) . '\';' . "\n";
+		}
 	}
 
 	exit;
@@ -71,6 +85,8 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 	<textarea name="data" style="width: 100%; height: 300px;" placeholder="Data&hellip;"></textarea>
 	<br><br>
 	Data separator: <label><input name="separator" type="radio" value="tab" checked> Tab (\t)</label> <label><input name="separator" type="radio" value="comma"> Comma (,)</label>
+	<br><br>
+	Query: <label><input name="query" type="radio" value="insert" checked> INSERT</label> <label><input name="query" type="radio" value="update"> UPDATE</label>
 	<br><br>
 	Trim values: <label><input name="trim" type="radio" value="1"> Yes</label> <label><input name="trim" type="radio" value="0" checked> No</label>
 	<br><br>
