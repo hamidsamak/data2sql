@@ -1,5 +1,5 @@
 # Data 2 SQL
-A web-based project for converting tab and comma separated values like worksheets to SQL insert queries.
+A web-based project for converting tab and comma separated values like worksheets to SQL insert and update queries.
 
 ## Features
 * Setting column names
