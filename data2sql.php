@@ -47,9 +47,13 @@ if (isset($_POST['data']) && empty($_POST['data']) === false) {
 		if ($trim === true)
 			$value = array_map('trim', $value);
 
-		foreach ($skip_columns as $key)
+		foreach ($skip_columns as $key) {
+			if (isset($columns[$key - 1]))
+				unset($columns[$key - 1]);
+
 			if (isset($value[$key - 1]))
 				unset($value[$key - 1]);
+		}
 
 		if ($query == 'insert')
 			print 'INSERT INTO `' . $table. '` (`' . implode('`, `', $columns) . '`) VALUES (\'' . implode('\', \'', $value) . '\');' . "\n";
